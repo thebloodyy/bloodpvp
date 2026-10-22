@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blood PvP</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+:root{
+  --bg:#0b0505;
+  --surface:#180808;
+  --card:#210909;
+  --red:#ff2020;
+  --red2:#b30000;
+  --red3:#ff5555;
+  --border:#7a1010;
+  --text:#fff5f5;
+  --muted:#d8bcbc;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Arial,sans-serif;
+}
+
+header{
+  background:#100505;
+  padding:22px 5%;
+  border-bottom:3px solid var(--red);
+  position:sticky;
+  top:0;
+  z-index:5;
+  box-shadow:0 4px 20px #ff202022;
+}
+
+nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:15px;
+  flex-wrap:wrap;
+}
+
+.logo{
+  font-size:25px;
+  font-weight:900;
+  color:var(--red);
+  text-shadow:0 0 14px #ff202077;
+}
+
+nav a{
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+  margin:8px;
+  transition:color .2s;
+}
+
+nav a:hover{color:var(--red)}
+
+#lang{
+  background:#260909;
+  color:white;
+  border:1px solid var(--red);
+  padding:10px;
+  border-radius:10px;
+}
+
+.hero{
+  text-align:center;
+  min-height:85vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:60px 20px;
+  background:
+    radial-gradient(ellipse at center,
+    #600909 0%,
+    #280808 38%,
+    #0b0505 78%);
+}
+
+h1{
+  font-size:clamp(42px,9vw,82px);
+  font-weight:1000;
+  line-height:1.1;
+  color:#ff2929;
+  text-shadow:
+    0 0 10px #ff202066,
+    0 0 35px #b3000055;
+}
+
+.hero p{
+  font-size:clamp(18px,4vw,30px);
+  font-weight:bold;
+  letter-spacing:5px;
+  margin:28px 0;
+  color:#ff7777;
+}
+
+.btn{
+  display:inline-block;
+  padding:18px 35px;
+  border-radius:16px;
+  background:linear-gradient(90deg,#b30000,#ff2020,#ff5555);
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+  font-size:18px;
+  border:1px solid #ff7777;
+  cursor:pointer;
+  transition:transform .2s,box-shadow .2s;
+  box-shadow:0 0 22px #ff202044;
+}
+
+.btn:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 32px #ff202088;
+}
+
+section{
+  padding:75px 7%;
+  text-align:center;
+  scroll-margin-top:100px;
+}
+
+h2{
+  font-size:clamp(30px,6vw,48px);
+  margin-bottom:35px;
+  color:var(--red);
+  text-shadow:0 0 18px #ff202044;
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:22px;
+}
+
+.card{
+  background:linear-gradient(145deg,#260909,#130606);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:30px 20px;
+  box-shadow:0 0 16px #ff20200b;
+  transition:transform .2s,border-color .2s,box-shadow .2s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  border-color:var(--red);
+  box-shadow:0 0 22px #ff202022;
+}
+
+.card h3{
+  font-size:24px;
+  margin:15px 0;
+  color:#ff4545;
+}
+
+.card p{
+  color:var(--muted);
+  line-height:1.7;
+  overflow-wrap:anywhere;
+}
+
+.profile-img{
+  width:120px;
+  height:120px;
+  object-fit:cover;
+  border-radius:50%;
+  border:3px solid var(--red);
+  display:block;
+  margin:0 auto;
+  box-shadow:0 0 18px #ff202033;
+}
+
+.symbol{
+  font-size:48px;
+  filter:grayscale(1);
+}
+
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+  gap:15px;
+}
+
+.gallery div{
+  min-height:140px;
+  border-radius:18px;
+  background:linear-gradient(135deg,#790000,#3b0808,#160505);
+  display:grid;
+  place-items:center;
+  font-size:35px;
+  border:1px solid #a81717;
+  transition:transform .2s,box-shadow .2s;
+}
+
+.gallery div:hover{
+  transform:scale(1.04);
+  box-shadow:0 0 20px #ff202033;
+}
+
+footer{
+  text-align:center;
+  padding:30px;
+  color:#c7a3a3;
+  border-top:1px solid #7a1010;
+  background:#100505;
+}
+
+.music-btn{
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:999;
+  padding:14px 20px;
+  border:2px solid #ff4545;
+  border-radius:14px;
+  background:linear-gradient(90deg,#a80000,#ff2020);
+  color:white;
+  font-weight:bold;
+  font-size:15px;
+  cursor:pointer;
+  box-shadow:0 0 22px #ff202044;
+}
+
+@media(max-width:600px){
+  header{padding:18px 12px}
+  nav{justify-content:center}
+  nav a{font-size:12px;margin:5px}
+  .hero{min-height:75vh}
+  .hero p{letter-spacing:2px}
+  section{padding:55px 18px}
+}
+</style>
+</head>
+
+<body>
+<header>
+<nav>
+  <div class="logo">✦ Blood </div>
+  <div>
+    <a href="#home" data-en="HOME" data-ku="سەرەتا">HOME</a>
+    <a href="#leadership" data-en="LEADERSHIP" data-ku="بەڕێوەبەران">LEADERSHIP</a>
+    <a href="#gallery" data-en="GALLERY" data-ku="وێنەکان">GALLERY</a>
+    <a href="#about" data-en="ABOUT US" data-ku="دەربارەمان">ABOUT US</a>
+  </div>
+  <select id="lang" aria-label="Choose language">
+    <option value="en">English</option>
+    <option value="ku">کوردی</option>
+  </select>
+</nav>
+</header>
+
+<main>
+<section class="hero" id="home">
+  <h1>Blood<br>PvP</h1>
+  <p id="slogan">POWER • RESPECT • CONTROL</p>
+  <a class="btn"
+     href="https://discord.gg/av6PBsQeVB"
+     target="_blank"
+     rel="noopener noreferrer"
+     id="join">JOIN THE FAMILY</a>
+</section>
+
+<section id="leadership">
+  <h2 data-en="Our Leadership" data-ku="بەڕێوەبەرانی ئێمە">Our Leadership</h2>
+  <div class="cards">
+    <div class="card">
+      <img src="./3195685E-D37D-44AB-9328-195263DDCC2F.jpg"
+           alt="Founder" class="profile-img">
+      <h3 data-en="Founder" data-ku="دامەزرێنەر">Founder</h3>
+      <p>!Start Lonely</p>
+      <p data-en="The tactical mind behind the movement."
+         data-ku="مێشکی ستراتیژی پشت ئەم کۆمەڵگەیە.">
+        The tactical mind behind the movement.
+      </p>
+    </div>
+
+    <div class="card">
+      <img src="./IMG_6738.jpg" alt="Manager" class="profile-img">
+      <h3 data-en="Manager" data-ku="بەڕێوەبەر">Manager</h3>
+      <p>Start ChaTo</p>
+      <p data-en="Leading with loyalty and respect."
+         data-ku="بە دڵسۆزی و ڕێزەوە سەرکردایەتی دەکات.">
+        Leading with loyalty and respect.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="symbol">⚡</div>
+      <h3 data-en="Our Team" data-ku="تیمی ئێمە">Our Team</h3>
+      <p data-en="United as one community."
+         data-ku="وەک کۆمەڵگەیەک یەکگرتووین.">
+        United as one community.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="gallery">
+  <h2 data-en="Gallery" data-ku="وێنەکان">Gallery</h2>
+  <div class="gallery">
+    <div>⚡</div>
+    <div>👑</div>
+    <div>🛡️</div>
+    <div>♥️</div>
+  </div>
+</section>
+
+<section id="about">
+  <h2 data-en="About Us" data-ku="دەربارەی ئێمە">About Us</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>🛡️ Loyalty</h3>
+      <p>وەفاداری: ئێمە یەک خێزانین.</p>
+    </div>
+    <div class="card">
+      <h3>🤫 Trust</h3>
+      <p>متمانە: لە خۆێنمان دایە.</p>
+    </div>
+    <div class="card">
+      <h3>👑 Respect</h3>
+      <p>ڕێزگرتن: کاری لە پێشینەمانە.</p>
+    </div>
+    <div class="card">
+      <h3>🎨 Start</h3>
+      <p>بڵوود: خوێنمان سوره.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>© 2026 Start Community • Power • Respect • Control</footer>
+
+<audio id="bgMusic" loop preload="none">
+  <source src="./Criminal%20Russia%20(feat.%20DJ%20%D0%9F%D0%9B%D0%90%D0%A9).mp3"
+          type="audio/mpeg">
+  Your browser does not support audio.
+</audio>
+
+<button class="music-btn" id="musicButton" type="button">
+  🎵 PLAY MUSIC
+</button>
+
+<script>
+const lang = document.getElementById('lang');
+const music = document.getElementById('bgMusic');
+const musicButton = document.getElementById('musicButton');
+
+lang.addEventListener('change', () => {
+  const ku = lang.value === 'ku';
+  document.documentElement.lang = ku ? 'ku' : 'en';
+
+  document.querySelectorAll('[data-en]').forEach(el => {
+    el.textContent = ku ? el.dataset.ku : el.dataset.en;
+  });
+
+  document.getElementById('slogan').textContent =
+    ku ? 'هێز • ڕێز • کۆنترۆڵ' : 'POWER • RESPECT • CONTROL';
+
+  musicButton.textContent = music.paused
+    ? (ku ? '🎵 پەخشکردنی گۆرانی' : '🎵 PLAY MUSIC')
+    : (ku ? '⏸️ وەستاندنی گۆرانی' : '⏸️ PAUSE MUSIC');
+});
+
+musicButton.addEventListener('click', async () => {
+  try {
+    if (music.paused) {
+      await music.play();
+      musicButton.textContent =
+        lang.value === 'ku' ? '⏸️ وەستاندنی گۆرانی' : '⏸️ PAUSE MUSIC';
+    } else {
+      music.pause();
+      musicButton.textContent =
+        lang.value === 'ku' ? '🎵 پەخشکردنی گۆرانی' : '🎵 PLAY MUSIC';
+    }
+  } catch (error) {
+    alert('Music could not play. Check that the MP3 file is uploaded to GitHub with the correct filename.');
+  }
+});
+</script>
+</body>
+</html>
